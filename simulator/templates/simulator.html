@@ -1,0 +1,85 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body class="bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="{% url 'home' %}">
+          <img src="{% static 'img/logo.png' %}" class="img-bg-dark" width="70" height="70">
+      </a>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="/games/user_dashboard/">Betting Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Upcoming Games</a>
+          </li>
+        </ul>
+
+      </div>
+    </nav>
+{% block content %}
+{% if user.is_authenticated %}
+    <br><br>
+    <h1 class="text-center text-light">Upcoming Games</h1>
+    <div class="container my-5">
+        {% for game in upcoming_games %}
+            <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">
+                <h5 class="card-header" style="background-color: grey;">{{ game.team_away }} @ {{ game.team_home }}
+                    <br><span class="text-end">{{ game.game_date_time }}</span></h5>
+                <div class="row text-center">
+                    <div class="col-3"></div>
+                    <div class="col-3"><strong>Spread</strong></div>
+                    <div class="col-3"><strong>Total Points</strong></div>
+                    <div class="col-3"><strong>Money Line</strong></div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-3 text-left">
+                        {{ game.team_away }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.spread_away }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.total_points_away }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.money_line_away }}
+                    </div>
+                </div>
+                <div class="row p-2">
+                    <div class="col-3">
+                        {{ game.team_home }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.spread_home }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.total_points_home }}
+                    </div>
+                    <div class="col-3 text-center">
+                        {{ game.money_line_home }}
+                    </div>
+                </div>
+                <br>
+                <div class="col text-center">
+                    <a href="game_details/{{ game.id }}" type="submit" class="btn btn-primary btn-sm mb-3">Place Bet</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="{% url 'login' %}">Log In</a>
+  <br><br>
+  <a href="{% url 'signup'%}">Create an Account</a>
+{% endif %}
+{% endblock %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

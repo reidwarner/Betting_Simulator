@@ -1,0 +1,34 @@
+<!-- templates/home.html-->
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+  <br>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-3 border text-center">
+        <p>Hi {{ user.username }}!</p>
+        <p><a href="/games/user_dashboard/">Continue to Betting Dashboard</a></p>
+        <p><a href="{% url 'logout' %}">Log Out</a></p>
+      </div>
+    </div>
+  </div>
+{% else %}
+  <br>
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-3 border text-center">
+        <p>You are not logged in</p>
+        <a href="{% url 'login' %}">Log In</a>
+        <br><br>
+        <a href="{% url 'signup'%}">Create an Account</a>
+        <br><br>
+      </div>
+    </div>
+  </div>
+{% endif %}
+{% endblock %}
