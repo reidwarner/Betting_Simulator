@@ -13,24 +13,29 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
-            <a class="nav-link" href="/games/user_dashboard/">Betting Dashboard</a>
+            <a class="nav-link" href="/betsim/user_dashboard/">Betting Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Upcoming Games</a>
+            <a class="nav-link" href="/betsim/games/ncaaf/">NCAAF Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/betsim/games/ncaam/">NCAAM Games</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/betsim/games/mlb/">MLB Games</a>
           </li>
         </ul>
-
       </div>
     </nav>
 {% block content %}
 {% if user.is_authenticated %}
     <br><br>
-    <h1 class="text-center text-light">Upcoming Games</h1>
+    <h1 class="text-center text-light">Upcoming  <span style="text-transform:uppercase">{{ league }}</span> Games</h1>
     <div class="container my-5">
-        {% for game in upcoming_games %}
-            <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">
+        <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">
+            {% for game in upcoming_games.values %}
                 <h5 class="card-header" style="background-color: grey;">{{ game.team_away }} @ {{ game.team_home }}
-                    <br><span class="text-end">{{ game.game_date_time }}</span></h5>
+                    <br><span class="text-end">{{ game.game_time }}</span></h5>
                 <div class="row text-center">
                     <div class="col-3"></div>
                     <div class="col-3"><strong>Spread</strong></div>
@@ -42,13 +47,13 @@
                         {{ game.team_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.spread_away }}
+                        {{ game.ps_line_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.total_points_away }}
+                        {{ game.ou_line_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.money_line_away }}
+                        {{ game.ml_away }}
                     </div>
                 </div>
                 <div class="row p-2">
@@ -56,21 +61,22 @@
                         {{ game.team_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.spread_home }}
+                        {{ game.ps_line_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.total_points_home }}
+                        {{ game.ou_line_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.money_line_home }}
+                        {{ game.ml_home }}
                     </div>
                 </div>
                 <br>
                 <div class="col text-center">
-                    <a href="game_details/{{ game.id }}" type="submit" class="btn btn-primary btn-sm mb-3">Place Bet</a>
+                    <a href="details/{{ game.team_home }}" type="submit"
+                       class="btn btn-primary btn-sm mb-3">Place Bet</a>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        </div>
     </div>
 {% else %}
   <p>You are not logged in</p>
