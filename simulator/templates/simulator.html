@@ -8,7 +8,7 @@
 <body class="bg-dark">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'img/logo.png' %}" class="img-bg-dark" width="70" height="70">
+        <img src="{% static 'img/logo.png' %}" class="img-bg-dark" width="70" height="70">
       </a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
@@ -16,13 +16,13 @@
             <a class="nav-link" href="/betsim/user_dashboard/">Betting Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/ncaaf/">NCAAF Games</a>
+            <a class="nav-link" href="/betsim/ncaaf">NCAAF Games</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/ncaam/">NCAAM Games</a>
+            <a class="nav-link" href="/betsim/ncaam">NCAAM Games</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/mlb/">MLB Games</a>
+            <a class="nav-link" href="/betsim/mlb">MLB Games</a>
           </li>
         </ul>
       </div>
@@ -30,12 +30,12 @@
 {% block content %}
 {% if user.is_authenticated %}
     <br><br>
-    <h1 class="text-center text-light">Upcoming  <span style="text-transform:uppercase">{{ league }}</span> Games</h1>
+    <h1 class="text-center text-light">Upcoming <span style="text-transform:uppercase">{{ game.league }}</span> Games</h1>
     <div class="container my-5">
-        <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">
-            {% for game in upcoming_games.values %}
+        {% for game in upcoming_games %}
+            <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">
                 <h5 class="card-header" style="background-color: grey;">{{ game.team_away }} @ {{ game.team_home }}
-                    <br><span class="text-end">{{ game.game_time }}</span></h5>
+                    <br><span class="text-end">{{ game.game_date_time }}</span></h5>
                 <div class="row text-center">
                     <div class="col-3"></div>
                     <div class="col-3"><strong>Spread</strong></div>
@@ -47,13 +47,13 @@
                         {{ game.team_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ps_line_away }}
+                        {{ game.spread_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ou_line_away }}
+                        {{ game.total_points_away }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ml_away }}
+                        {{ game.money_line_away }}
                     </div>
                 </div>
                 <div class="row p-2">
@@ -61,22 +61,21 @@
                         {{ game.team_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ps_line_home }}
+                        {{ game.spread_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ou_line_home }}
+                        {{ game.total_points_home }}
                     </div>
                     <div class="col-3 text-center">
-                        {{ game.ml_home }}
+                        {{ game.money_line_home }}
                     </div>
                 </div>
                 <br>
                 <div class="col text-center">
-                    <a href="details/{{ game.team_home }}" type="submit"
-                       class="btn btn-primary btn-sm mb-3">Place Bet</a>
+                    <a href="game_details/{{ game.id }}" type="submit" class="btn btn-primary btn-sm mb-3">Place Bet</a>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
 {% else %}
   <p>You are not logged in</p>

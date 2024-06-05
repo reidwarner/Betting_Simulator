@@ -9,18 +9,20 @@ class Command(BaseCommand):
     help = 'Scrape the given URL for the upcoming game data.'
 
     def add_arguments(self, parser):
-        parser.add_argument('url', type=str)
+        parser.add_argument('league', type=str)
 
     def handle(self, *args, **options):
         # Web Scraper for upcoming week of games
-        # url = "https://www.lines.com/betting/ncaaf/odds"
+        league = options.get('league')
+        if league == 'ncaab':
+            league = 'ncaam'
+        url = "https://www.lines.com/betting/" + league + "/odds"
         # If upcoming games exist in the db, delete them so only the upcoming games are in there
 
         future_games = Game.objects.all()
         if future_games:
             future_games.delete()
 
-        url = options.get('url')
         result = requests.get(url)
         doc = BeautifulSoup(result.text, "html.parser")
         script = doc.find_all('script')[5].text.strip()
@@ -45,7 +47,7 @@ class Command(BaseCommand):
             team_away = teams[j].text.strip()[:-6].strip()
             team_home = teams[j + 1].text.strip()[:-6].strip()
             game = f'{team_away} vs. {team_home}'
-            game_time = game_date_times[k].text.strip()[:-9].strip()
+            game_time = game_date_times[k].text.strip()[:13].strip()
             j += 2
             k += 1
 
@@ -81,6 +83,7 @@ class Command(BaseCommand):
                                'total points home payout': ou_payout_home,
                                'money line away': ml_away,
                                'money line home': ml_home,
+                               'league': league,
                                }
 
             # Populate the game database
@@ -99,5 +102,6 @@ class Command(BaseCommand):
                            total_points_home_payout=data_dict[game]['total points home payout'],
                            money_line_away=data_dict[game]['money line away'],
                            money_line_home=data_dict[game]['money line home'],
+                           league=data_dict[game]['league']
                            )
             game_db.save()

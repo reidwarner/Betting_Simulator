@@ -11,6 +11,7 @@ class TimeDateChecks:
                               "mlb": [2024411, 20241111],
                               }
 
+    @staticmethod
     def is_in_season(self, sport):
         today = ''.join(filter(str.isdigit, self._date))
         if self._seasons_dict[sport][0] < int(today) < self._seasons_dict[sport][1]:

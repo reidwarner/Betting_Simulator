@@ -9,21 +9,21 @@
 <body class="bg-dark">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <a class="navbar-brand" href="{% url 'home' %}">
-          <img src="{% static 'img/logo.png' %}" class="img-bg-dark" width="70" height="70">
+        <img src="{% static 'img/logo.png' %}" class="img-bg-dark" width="70" height="70">
       </a>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto text-light">
+        <ul class="navbar-nav mr-auto">
           <li class="nav-item active">
             <a class="nav-link" href="/betsim/user_dashboard/">Betting Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/ncaaf/">NCAAF Games</a>
+            <a class="nav-link" href="/betsim/ncaaf">NCAAF Games</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/ncaam/">NCAAM Games</a>
+            <a class="nav-link" href="/betsim/ncaam">NCAAM Games</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/betsim/games/mlb/">MLB Games</a>
+            <a class="nav-link" href="/betsim/mlb">MLB Games</a>
           </li>
         </ul>
       </div>
@@ -38,22 +38,23 @@
                 <h4>{{ game.team_away }} @ {{ game.team_home }}</h4>
             </div>
             <br>
-            <div class="col-12">Date: {{ game.game_time }}</div>
+            <div class="col-12">Date: {{ game.game_date_time }}</div>
             <br>
             <div class="col-12">
                 <strong>{{ game.team_away }} betting options:</strong>
             </div>
-            <div class="col-12">    Spread: {{ game.ps_line_away }}      Payout: {{ game.ps_payout_away }}</div>
-            <div class="col-12">    Total Points: {{ game.ou_line_away }}      Payout: {{ game.ou_payout_away }}</div>
-            <div class="col-12">    Money Line: {{ game.ml_away }}</div>
+            <div class="col-12">    Spread: {{ game.spread_away }}      Payout: {{ game.spread_away_payout }}</div>
+            <div class="col-12">    Total Points: {{ game.total_points_away }}      Payout: {{ game.total_points_away_payout }}</div>
+            <div class="col-12">    Money Line: {{ game.money_line_away }}</div>
             <br>
             <div class="col-12">
                 <strong>{{ game.team_home }} betting options:</strong>
             </div>
-            <div class="col-12">Spread: {{ game.ps_line_home }}       Payout: {{ game.ps_payout_home }}</div>
-            <div class="col-12">Total Points: {{ game.ou_line_home }}       Payout: {{ game.ou_payout_home }}</div>
-            <div class="col-12">Money Line: {{ game.ml_home }}</div>
+            <div class="col-12">Spread: {{ game.spread_home }}       Payout: {{ game.spread_home_payout }}</div>
+            <div class="col-12">Total Points: {{ game.total_points_home }}       Payout: {{ game.total_points_home_payout }}</div>
+            <div class="col-12">Money Line: {{ game.money_line_home }}</div>
             <br>
+            <div>Go Back to <a href="/betsim/{{ game.league }}">Games</a></div>
         </div>
     </div>
     <div class="container text-light border my-5">

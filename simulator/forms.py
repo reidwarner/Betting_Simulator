@@ -1,6 +1,4 @@
 from django import forms
-from django.forms import ModelForm
-from.models import PlacedBet, UserStats
 
 
 class BetForm(forms.Form):
@@ -9,32 +7,18 @@ class BetForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         game = kwargs.pop('game', None)
-        team_away = game['team_away']
-        team_home = game['team_home']
-        spread_away = game['ps_line_away']
-        spread_home = game['ps_line_home']
-        spread_away_payout = game['ps_payout_away']
-        spread_home_payout = game['ps_payout_home']
-        money_line_away = game['ml_away']
-        money_line_home = game['ml_home']
-        total_points_away = game['ou_line_away']
-        total_points_away_payout = game['ou_payout_away']
-        total_points_home = game['ou_line_home']
-        total_points_home_payout = game['ou_payout_home']
-
-
         super(BetForm, self).__init__(*args, **kwargs)
         bet_choices = (
-            (f'{team_away} {spread_away} {spread_away_payout}',
-             f'{team_away} {spread_away} {spread_away_payout}'),
-            (f'{team_away} ML {money_line_away}', f'{team_away} ML {money_line_away}'),
-            (f'{team_home} {spread_home} {spread_home_payout}',
-             f'{team_home} {spread_home} {spread_home_payout}'),
-            (f'{team_home} ML {money_line_home}', f'{team_home} ML {money_line_home}'),
-            (f'Total points {total_points_away} {total_points_away_payout}',
-             f'Total points {total_points_away} {total_points_away_payout}'),
-            (f'Total points {total_points_home} {total_points_home_payout}',
-             f'Total points {total_points_home} {total_points_home_payout}'),
+            (f'{game.team_away} {game.spread_away} {game.spread_away_payout}',
+             f'{game.team_away} {game.spread_away} {game.spread_away_payout}'),
+            (f'{game.team_away} ML {game.money_line_away}', f'{game.team_away} ML {game.money_line_away}'),
+            (f'{game.team_home} {game.spread_home} {game.spread_home_payout}',
+             f'{game.team_home} {game.spread_home} {game.spread_home_payout}'),
+            (f'{game.team_home} ML {game.money_line_home}', f'{game.team_home} ML {game.money_line_home}'),
+            (f'Total points {game.total_points_away} {game.total_points_away_payout}',
+             f'Total points {game.total_points_away} {game.total_points_away_payout}'),
+            (f'Total points {game.total_points_home} {game.total_points_home_payout}',
+             f'Total points {game.total_points_home} {game.total_points_home_payout}'),
         )
         self.fields['bet'].choices = bet_choices
 
