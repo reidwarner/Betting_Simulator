@@ -30,7 +30,7 @@
 {% block content %}
 {% if user.is_authenticated %}
     <br><br>
-    <h1 class="text-center text-light">Upcoming <span style="text-transform:uppercase">{{ game.league }}</span> Games</h1>
+    <h1 class="text-center text-light">Upcoming <span style="text-transform:uppercase">{{ league }}</span> Games</h1>
     <div class="container my-5">
         {% for game in upcoming_games %}
             <div class="card bg-dark text-light border-light mb-3" style="border: 3px solid white;">

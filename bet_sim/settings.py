@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_crontab',
     'simulator',
     'accounts',
 ]
@@ -132,3 +133,14 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Redirect after successful login
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "home"
+
+# Cron Tabs
+CRONJOBS = [
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_new_games_ncaaf'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_new_games_ncaam'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_new_games_mlb'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_game_results_ncaaf'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_game_results_ncaam'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_get_game_results_mlb'),
+    ('*/5 * * * *', 'simulator.cron.scheduled_check_placed_bets'),
+]

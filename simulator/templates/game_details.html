@@ -28,6 +28,9 @@
         </ul>
       </div>
     </nav>
+
+
+
 {% block content %}
 {% if user.is_authenticated %}
 <br>
@@ -66,7 +69,7 @@
             {{ form.as_p }}
             <br/>
             <div class="text-center">
-                <input type='submit' value='Place Bet' class="btn btn-primary">
+                <input type='submit' value='Place Bet' class="btn btn-primary" id="liveAlertBtn">
             </div>
             <br>
         </form>

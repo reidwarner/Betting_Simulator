@@ -8,13 +8,14 @@ class Command(BaseCommand):
     help = 'Scrape the given URL for the results of the games.'
 
     def add_arguments(self, parser):
-        parser.add_argument('url', type=str)
+        parser.add_argument('league', type=str)
 
     def handle(self, *args, **options):
-        url = options.get('url')
-        # Web scraper to get the results of games
-
-        # url = "https://www.lines.com/betting/ncaaf/odds/best-line/0?week=10"
+        # Web Scraper for upcoming week of games
+        league = options.get('league')
+        if league == 'ncaam':
+            league = 'ncaab'
+        url = "https://www.lines.com/betting/" + league + "/odds"
         result = requests.get(url)
         doc = BeautifulSoup(result.text, "html.parser")
 

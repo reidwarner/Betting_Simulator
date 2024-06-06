@@ -3,6 +3,7 @@ from bs4 import BeautifulSoup
 import requests
 import json
 from simulator.models import Game
+from GameDateAndTime import GameDateAndTime
 
 
 class Command(BaseCommand):
@@ -86,22 +87,24 @@ class Command(BaseCommand):
                                'league': league,
                                }
 
-            # Populate the game database
-
-            game_db = Game(teams=game,
-                           game_date_time=data_dict[game]['date and time'],
-                           team_away=data_dict[game]['away team'],
-                           team_home=data_dict[game]['home team'],
-                           spread_away=data_dict[game]['spread away'],
-                           spread_away_payout=data_dict[game]['spread away payout'],
-                           spread_home=data_dict[game]['spread home'],
-                           spread_home_payout=data_dict[game]['spread home payout'],
-                           total_points_away=data_dict[game]['total points away'],
-                           total_points_away_payout=data_dict[game]['total points away payout'],
-                           total_points_home=data_dict[game]['total points home'],
-                           total_points_home_payout=data_dict[game]['total points home payout'],
-                           money_line_away=data_dict[game]['money line away'],
-                           money_line_home=data_dict[game]['money line home'],
-                           league=data_dict[game]['league']
-                           )
-            game_db.save()
+            if GameDateAndTime.is_game_started(game_time):
+                pass
+            else:
+                # Populate the game database
+                game_db = Game(teams=game,
+                               game_date_time=data_dict[game]['date and time'],
+                               team_away=data_dict[game]['away team'],
+                               team_home=data_dict[game]['home team'],
+                               spread_away=data_dict[game]['spread away'],
+                               spread_away_payout=data_dict[game]['spread away payout'],
+                               spread_home=data_dict[game]['spread home'],
+                               spread_home_payout=data_dict[game]['spread home payout'],
+                               total_points_away=data_dict[game]['total points away'],
+                               total_points_away_payout=data_dict[game]['total points away payout'],
+                               total_points_home=data_dict[game]['total points home'],
+                               total_points_home_payout=data_dict[game]['total points home payout'],
+                               money_line_away=data_dict[game]['money line away'],
+                               money_line_home=data_dict[game]['money line home'],
+                               league=data_dict[game]['league']
+                               )
+                game_db.save()

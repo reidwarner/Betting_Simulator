@@ -80,7 +80,12 @@ def game_details(request, id):
         us_update.bank = us_update.bank - int(wager)
         us_update.save()
 
-        return HttpResponseRedirect(reverse('simulator'))
+        form = BetForm(game=game)
+        context = {
+            'game': game,
+            'form': form,
+        }
+        return HttpResponse(template.render(context, request))
     else:
         form = BetForm(game=game)
         context = {
